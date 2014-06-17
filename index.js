@@ -8,6 +8,10 @@ var bugsnag = require('bugsnag');
 var snag_levels = ['error', 'error', 'warning', 'info', 'info', 'info'];
 
 module.exports = function(uri, opt) {
+    if (!uri) {
+        return function() {};
+    }
+
     opt = opt || {};
 
     var conn_info = url.parse(uri);

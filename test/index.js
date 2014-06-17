@@ -6,6 +6,7 @@ var bugsnag = require('../');
 
 test('setup', function() {
     var uri = 'https://notify.example.com/88af4eba6a79c858e6c75646ea2dd6fd885caa75';
+    log.use(bugsnag()); // should be a no-op
     log.use(bugsnag(uri));
 });
 
