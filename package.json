@@ -4,7 +4,7 @@
   "description": "bugsnag logger for book",
   "main": "index.js",
   "dependencies": {
-    "bugsnag": "1.5.0",
+    "bugsnag": "defunctzombie/bugsnag-node#0d7a74",
     "nock": "0.36.2",
     "xtend": "3.0.0"
   },

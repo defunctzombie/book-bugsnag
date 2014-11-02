@@ -19,16 +19,21 @@ module.exports = function(uri, opt) {
 
     var config = conn_info.query || Object.create(null);
 
-    config.notifyHost = conn_info.hostname,
-    config.notifyPort = conn_info.port
+    config.notifyHost = conn_info.hostname;
+    config.notifyPort = conn_info.port;
+
+    // by defualt, do not turn on the automatic notification stuff
+    // let the user handle uncaught exceptions
+    // the reason for this is to avoid domains which are shit
+    config.autoNotify = config.autoNotify || false;
 
     bugsnag.register(key, config);
 
     // we will ignore anything above this level
     var ignore_levels = opt.ignore_levels || 2;
 
-    function report(err, extra) {
-        return bugsnag.notify(err, extra, function(err) {
+    function report(err, opt) {
+        return bugsnag.notify(err, opt, function(err) {
             if (err) {
                 console.error(err);
             }
@@ -51,16 +56,19 @@ module.exports = function(uri, opt) {
 
         var extra = xtend({}, self);
         delete extra.level;
+        delete extra.hostname;
 
-        var extra = extra;
-        extra.severity = lvl;
+        var opt = {};
+        opt.severity = lvl;
+        opt.metadata = {};
+        opt.book = extra;
 
         for (var idx=0 ; idx < arguments.length ; ++idx) {
             var arg = arguments[idx];
 
             // http interface handling
             if (arg instanceof http.IncomingMessage) {
-                extra.req = arg;
+                opt.req = arg;
             }
             // error will be handled below
             // only allowed as first argument
@@ -69,7 +77,7 @@ module.exports = function(uri, opt) {
             }
             // if user passed an object, then capture extra fields
             else if (arg instanceof Object) {
-                extra = xtend(extra, arg);
+                opt.metadata = xtend(opt.metadata, arg);
             }
         }
 
@@ -79,12 +87,12 @@ module.exports = function(uri, opt) {
 
             // if error object has extra things attached, grab those too
             if (Object.keys(err).length > 0) {
-                extra.error = err;
+                opt.metadata.error = err;
             }
 
-            return report(err, extra);
+            return report(err, opt);
         }
 
-        return report(err, extra);
+        return report(err, opt);
     }
 }
