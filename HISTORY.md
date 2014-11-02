@@ -1,4 +1,4 @@
-# UNRELEASED
+# 0.1.0 (2014-11-01)
 
   * use query options to configure bugsnag
   * better metadata handling
