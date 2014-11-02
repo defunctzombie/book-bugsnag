@@ -14,13 +14,15 @@ module.exports = function(uri, opt) {
 
     opt = opt || {};
 
-    var conn_info = url.parse(uri);
-    var key = conn_info.path.slice(1);
+    var conn_info = url.parse(uri, true);
+    var key = conn_info.pathname.slice(1);
 
-    bugsnag.register(key, {
-        notifyHost: conn_info.hostname,
-        notifyPort: conn_info.port
-    });
+    var config = conn_info.query || Object.create(null);
+
+    config.notifyHost = conn_info.hostname,
+    config.notifyPort = conn_info.port
+
+    bugsnag.register(key, config);
 
     // we will ignore anything above this level
     var ignore_levels = opt.ignore_levels || 2;
