@@ -93,6 +93,6 @@ module.exports = function(uri, opt) {
             return report(err, opt);
         }
 
-        return report(err, opt);
+        return report(arguments[0], opt);
     }
 }
