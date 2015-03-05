@@ -1,3 +1,7 @@
+# UNRELEASED
+
+  * update to upstream bugsnag 1.6.3
+
 # 0.1.1 (2015-01-19)
 
   * fix logging string as first argument
