@@ -1,4 +1,4 @@
-# UNRELEASED
+# 0.2.0 (2015-03-05)
 
   * update to upstream bugsnag 1.6.3
 
