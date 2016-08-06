@@ -1,4 +1,4 @@
-# UNRELEASED
+# 0.2.1 (2016-08-06)
 
   * update bugsnag package for CVE
 
